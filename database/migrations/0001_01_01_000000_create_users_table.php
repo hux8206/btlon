@@ -13,9 +13,24 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('userID');
-            $table->string('userName',100)->unique();
-            $table->string('pass',100);
-            $table->string('fullName',100)->nullable();
+            $table->string('email', 100)->unique();
+            $table->string('pass', 100);
+            $table->string('fullName', 100)->nullable();
+        });
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+
+        // 3. Phần tạo bảng Sessions (Mặc định - ĐỪNG XÓA - ĐÂY LÀ CÁI BẠN ĐANG THIẾU)
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
         });
     }
 

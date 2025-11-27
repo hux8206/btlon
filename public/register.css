@@ -1,0 +1,192 @@
+:root {
+    --color-main: #00c7e0;
+    /* Light Blue Gradient */
+    --color-light-gradient-start: #00e8d2;
+    --color-light-gradient-end: #007bff;
+    /* Dark Blue Gradient for Welcome Back Panel (Right) */
+    --color-dark-gradient-start: #004c66;
+    --color-dark-gradient-end: #002e4d;
+    --color-white: #ffffff;
+    --color-dark-text: #333333;
+    --color-light-text: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+/*styles for the full screen*/
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #a8dadc 0%, #457b9d 100%);
+    /* Soft background gradient */
+}
+
+/* Centering the Main Form Box */
+#slideBox {
+    height: 90vh;
+    max-height: 600px;
+    /* Set a reasonable maximum height for desktop */
+    width: 90%;
+    max-width: 900px;
+    background: var(--color-white);
+}
+
+/* Custom scrollbar for webkit*/
+.custom-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.custom-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+
+/*Registration View: [Form (Left)] [Welcome Back (Right)]*/
+.topLayer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.panel {
+    /* Mỗi panel chiếm 50% khung nhìn */
+    width: 50%;
+    flex-basis: 50%;
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    flex-shrink: 0;
+}
+
+/*REGISTRATION FORM (Left - Curved Right) */
+.panel:nth-child(1) {
+    background: var(--color-white);
+    color: var(--color-dark-text);
+    border-top-left-radius: 0.75rem;
+    border-bottom-left-radius: 0.75rem;
+}
+
+/*WELCOME BACK PANEL (Right - Curved Left) */
+.panel:nth-child(2) {
+    background: linear-gradient(135deg, var(--color-dark-gradient-start) 0%, var(--color-dark-gradient-end) 100%);
+    color: var(--color-light-text);
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    border-top-right-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+
+/* Specific adjustments for content centering */
+.content {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100%;
+}
+
+/* Input Field Styling */
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.input-field {
+    background-color: #f0f4f8;
+    border: 1px solid #e0e4e8;
+    border-radius: 9999px;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    border-color: var(--color-main);
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+/* Button Styling (Gradient) */
+.register-btn-form {
+    background: linear-gradient(to right, #005a6b, #00c7e0);
+    border: none;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 110, 255, 0.4);
+    width: 100%;
+    cursor: pointer;
+}
+
+/* Login Prompt Button Styling (White border, Transparent fill) */
+.login-btn-prompt {
+    background-color: transparent;
+    color: var(--color-light-text);
+    border: 2px solid var(--color-light-text);
+    padding: 0.75rem 2.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    border-radius: 9999px;
+}
+
+/* Social Icons Styling */
+.social-icon-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 768px) {
+    .panel {
+        width: 100%;
+        flex-basis: 100%;
+        border-radius: 0.75rem;
+    }
+
+    .panel:nth-child(2) {
+        display: none;
+        /* Hide welcome panel on mobile */
+    }
+
+    .panel:nth-child(1) {
+        /* Ensure mobile form is full width and rounded */
+        border-radius: 0.75rem;
+    }
+
+    #slideBox {
+        width: 90%;
+        height: auto;
+        min-height: 50vh;
+    }
+}
+.error-message {
+    position: absolute; /* Tách khỏi dòng chảy văn bản */
+    bottom: -25px; /* Đẩy xuống dưới đít của ô input */
+    left: 10px;    /* Canh lề trái một chút cho đẹp */
+    font-size: 15px; /* Chữ nhỏ lại */
+    color: red;    /* Đổi màu đỏ cho dễ nhìn */
+    margin: 0;
+}

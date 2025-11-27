@@ -17,13 +17,13 @@ class User extends Authenticatable
      * Vì bạn dùng 'userID' thay vì 'id' mặc định của Laravel
      */
     protected $primaryKey = 'userID';
-
+    public $timestamps = false;
     /**
      * 2. KHAI BÁO CÁC CỘT ĐƯỢC PHÉP NHẬP LIỆU (Mass Assignment)
      * Sửa lại theo tên cột trong database của bạn
      */
     protected $fillable = [
-        'userName',
+        'email',
         'pass',
         'fullName',
     ];
