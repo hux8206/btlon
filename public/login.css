@@ -157,3 +157,11 @@
             min-height: 50vh;
         }
       }
+      .error-message {
+    position: absolute; /* Tách khỏi dòng chảy văn bản */
+    bottom: -25px; /* Đẩy xuống dưới đít của ô input */
+    left: 10px;    /* Canh lề trái một chút cho đẹp */
+    font-size: 15px; /* Chữ nhỏ lại */
+    color: red;    /* Đổi màu đỏ cho dễ nhìn */
+    margin: 0;
+}

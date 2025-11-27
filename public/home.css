@@ -1,0 +1,65 @@
+/* Đảm bảo font chữ hiện đại */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--custom-light-bg, #f0f8ff);
+    margin: 0;
+}
+
+/* Custom shadow for cards */
+.card-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06), 0 0 20px rgba(0, 199, 224, 0.2);
+}
+
+/* Custom highlight for interactive elements */
+.focus-ring-cyan:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 199, 224, 0.5);
+}
+
+/* Animation cho Robot vẫy tay */
+@keyframes wave {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(15deg);
+    }
+}
+
+.waving-robot {
+    animation: wave 2.5s infinite ease-in-out;
+    transform-origin: 70% 90%;
+}
+
+/* Custom background for the main header section */
+.header-bg {
+    background: linear-gradient(145deg, #00c7e0 0%, #007bff 100%);
+}
+
+/* Custom background for the CTA section (light, subtle gradient) */
+.cta-bg {
+    background: linear-gradient(180deg, #ffffff 0%, #f7f7ff 100%);
+}
+
+/* Styling for Feature Tiles */
+.feature-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: all 0.3s;
+    cursor: pointer;
+    white-space: nowrap;
+    /* Prevent text wrapping */
+}
+
+.feature-tile:hover {
+    opacity: 0.8;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
