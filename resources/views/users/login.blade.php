@@ -9,9 +9,40 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="{{ asset('login.css') }}">
 
-</head>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const toast = document.getElementById('toast');
 
-<body>
+        // Nếu tìm thấy thông báo (tức là có lỗi session)
+        if (toast) {
+            // Đợi 3 giây (3000ms)
+            setTimeout(() => {
+                // 1. Làm mờ dần (Hiệu ứng fade out)
+                toast.classList.add('opacity-0', 'pointer-events-none');
+                
+                // 2. Sau khi mờ xong (0.5s) thì xóa hẳn khỏi giao diện
+                setTimeout(() => {
+                    toast.remove();
+                }, 500); 
+            }, 3000);
+        }
+    });
+</script>
+
+@if(session('error'))
+    <div id="toast" 
+         class="fixed top-[40px] left-1/2 -translate-x-1/2 -translate-y-1/2 
+                bg-red-500 text-white 
+                px-10 py-4 rounded-xl shadow-2xl 
+                text-base  
+                z-50 transition-opacity duration-500 ease-in-out">
+        
+        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+        
+        {{ session('error') }}
+    </div>
+@endif
+
   <div
     id="slideBox"
     class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-xl shadow-2xl">

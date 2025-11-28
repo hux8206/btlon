@@ -38,7 +38,23 @@ class UserController extends Controller
         if(Auth::attempt($cre)){
             $request -> session() -> regenerate();
 
-            return redirect()->intended('/home');
+            return redirect()->intended('home');
         }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request -> session() -> invalidate();
+
+        $request -> session() -> regenerate();
+
+        return redirect()->route('start');
+    }
+
+    public function start()
+    {
+        return view('start');
     }
 }
