@@ -1,0 +1,16 @@
+/* Đảm bảo font chữ hiện đại */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--custom-light-bg, '#f0f8ff');
+    margin: 0;
+}
+
+/* Custom shadow for cards */
+.card-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06), 0 0 20px rgba(0, 199, 224, 0.2);
+}
+
+/* Header background for profile banner */
+.profile-banner-bg {
+    background: linear-gradient(145deg, #004c66 0%, #00c7e0 100%);
+}

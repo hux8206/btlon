@@ -57,4 +57,9 @@ class UserController extends Controller
     {
         return view('start');
     }
+
+    public function profile()
+    {
+        return view('users.profile');
+    }
 }

@@ -1,5 +1,7 @@
 @extends('layout.main')
 
+@section('title')
+
 @section('content')
 
 <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -168,7 +170,7 @@
             </p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
                 <!-- Nút Đăng ký (Primary CTA) -->
-                <a href="#" class="px-8 py-3 text-lg font-semibold rounded-full text-white bg-custom-dark hover:bg-custom-main focus-ring-cyan transition shadow-lg">
+                <a href="{{ route('create') }}" class="px-8 py-3 text-lg font-semibold rounded-full text-white bg-custom-dark hover:bg-custom-main focus-ring-cyan transition shadow-lg">
                     Tạo bài dò
                 </a>
                 <!-- Nút Tìm hiểu thêm (Secondary CTA) 

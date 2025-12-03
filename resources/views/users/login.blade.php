@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fixed Login Form</title>
+  <title>Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="{{ asset('login.css') }}">
@@ -78,7 +78,7 @@
             <div class="input-group">
               <i class="input-icon fas fa-lock"></i>
               <input class="input-field" type="password" name="password" placeholder="Password">
-              @error('fullname')
+              @error('password')
               <div class="error-message">{{ $message }}</div>
               @enderror
             </div>

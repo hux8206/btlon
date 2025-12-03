@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulary Learning Dashboard - Modern Style</title>
+    <title>@yield('title','Home')</title>
     <!-- Tải Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tải Font Awesome cho Icons -->
@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Cấu hình Tailwind cho màu sắc xanh chủ đạo -->
     <link rel="stylesheet" href="{{ asset('home.css') }}">
+    <link rel="stylesheet" href="{{ asset('profile.css') }}">
+    @yield('css')
     <script>
         tailwind.config = {
             theme: {
@@ -37,7 +39,7 @@
 
                     <!-- Logo và Tên Ứng dụng -->
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="#" class="text-2xl font-extrabold text-custom-dark flex items-center">
+                        <a href="{{ route('home') }}" class="text-2xl font-extrabold text-custom-dark flex items-center">
                             <i class="fas fa-book-open mr-2 text-custom-main"></i>
                             VOCABIZ
                         </a>
@@ -45,10 +47,16 @@
 
                     <!--user name-->
                     @auth
-                    <div>
-                        <span class="text-black">{{ auth()->user()->fullName }}</span>
-                        <a href="{{ route('logout') }}" class="text-black">
-                            Logout
+                    <div class="flex items-center space-x-4">
+                        <a href="{{ route('home') }}" class="text-sm font-medium text-gray-700 hover:text-custom-main hidden sm:block">
+                            Trang chủ
+                        </a>
+                        <div class="flex items-center space-x-2">
+                            <img class="h-8 w-8 rounded-full border-2 border-custom-main" src="https://placehold.co/100x100/004c66/ffffff?text=H" alt="Ảnh đại diện">
+                            <a class="text-sm font-semibold text-custom-dark hidden sm:block" href="{{ route('profile') }}">{{ auth()->user()->fullName }}</a>
+                        </div>
+                        <a class="px-4 py-2 text-sm font-medium rounded-full text-white bg-custom-main hover:bg-custom-dark transition shadow-lg" href="{{ route('logout') }}">
+                            Đăng xuất
                         </a>
                     </div>
                     @endauth
