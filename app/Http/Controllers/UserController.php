@@ -24,6 +24,7 @@ class UserController extends Controller
             'pass' => Hash::make($request->get('password')),
             'fullName'=> $request->get('fullname')
         ]);
+        return back()->with('message','Dang Ky Thanh Cong !');
     }
 
     public function login()
@@ -37,9 +38,15 @@ class UserController extends Controller
 
         if(Auth::attempt($cre)){
             $request -> session() -> regenerate();
-
+            if(Auth::user()->role === 'admin'){
+                return redirect()->route('admin');
+            }
             return redirect()->intended('home');
         }
+        return back()->withErrors([
+            'password' => 'The password is wrong !'
+        ]);
+
     }
 
     public function logout(Request $request)

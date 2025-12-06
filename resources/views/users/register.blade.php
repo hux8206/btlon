@@ -7,6 +7,7 @@
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('register.css') }}">
   </head>
 
@@ -20,6 +21,11 @@
         <div class="panel custom-scrollbar">
           <div class="content">
             <h2 class="font-bold text-4xl mb-6" style="color: var(--color-dark-text);">Registration</h2>
+            @if (session('message'))
+                 <div class="alert alert-success">
+                     {{ session('message') }}
+                 </div>
+            @endif
             <form method="POST" action="{{ route('postRegister') }}" id="form-signup" class="w-full max-w-sm" novalidate>
               <!-- Username Field -->
               @csrf
