@@ -52,6 +52,14 @@
                 <div class="error-message">{{ $message }}</div>
                 @enderror
               </div>
+              <!-- confirm -->
+              <div class="input-group">
+                <i class="input-icon fas fa-lock"></i>
+                <input class="input-field" type="password" name="password_confirmation" placeholder="Confirm Password">
+                @error('password_confirmation')
+                <div class="error-message">{{ $message }}</div>
+                @enderror
+              </div>
 
               <!-- Register Button -->
               <div class="form-element mt-8 w-full">
