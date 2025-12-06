@@ -1,6 +1,6 @@
 @extends('layout.main');
 
-@section('title')
+@section('title','Profile')
 
 @section('content')
      <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">

@@ -10,14 +10,4 @@ class MainController extends Controller
     {
         return view('layout.home');    
     }
-
-    public function statistic()
-    {
-        return view('layout.statistic');
-    }
-
-    public function create ()
-    {
-        return view('layout.create');
-    }
 }

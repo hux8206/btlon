@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -14,8 +15,9 @@ Route::controller(UserController::class)->group(function () {
     Route::get('profile','profile')->name('profile');
 });
 
-Route::middleware('checklogin')->controller(MainController::class)->group(function(){
-    Route::get('home','home')->name('home');
-    Route::get('statistic','statistic')->name('statistic');
+Route::middleware('checklogin')->controller(TestController::class)->group(function(){
     Route::get('create','create')->name('create');
+    Route::post('create','postCreate')->name('postCreate');
 });
+
+Route::middleware('checklogin')->get('home',[MainController::class,'home'])->name('home');

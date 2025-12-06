@@ -21,8 +21,7 @@ return new class extends Migration
                 $table->string('title', 100);
                 $table->integer('timeEachQuestion');
                 $table->integer('quantity');
-                $table->tinyInteger('mode');
-
+                $table->tinyInteger('mode')->default(0);
                 $table->dateTime('dayCreated')->useCurrent();
             });
         }

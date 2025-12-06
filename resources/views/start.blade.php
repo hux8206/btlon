@@ -120,7 +120,7 @@
         <!-- Category Card 1: Công Sở -->
         <div class="bg-white p-4 rounded-xl card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-0.5 cursor-pointer flex flex-col items-center justify-center space-y-2">
           <i class="fas fa-chart-line text-3xl text-yellow-600"></i>
-          <a class="font-semibold text-gray-800 text-center" href="{{ route('statistic') }}">Thống kê</a>
+          <a class="font-semibold text-gray-800 text-center" href="#">Thống kê</a>
         </div>
         <!-- Category Card 2: IELTS -->
         <div class="bg-white p-4 rounded-xl card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-0.5 cursor-pointer flex flex-col items-center justify-center space-y-2">
