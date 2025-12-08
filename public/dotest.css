@@ -1,0 +1,70 @@
+ body {
+     font-family: 'Poppins', sans-serif;
+     background-color: #f0f8ff;
+     /* Nền xanh nhạt */
+     margin: 0;
+     min-height: 100vh;
+     display: flex;
+     flex-direction: column;
+ }
+
+ .quiz-header-bg {
+     background: linear-gradient(90deg, #004c66 0%, #00c7e0 100%);
+ }
+
+ /* Custom styling cho các thẻ đáp án */
+ .answer-card {
+     transition: all 0.2s ease-in-out;
+     cursor: pointer;
+     user-select: none;
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+ }
+
+ .answer-card:hover:not(.selected) {
+     transform: translateY(-2px);
+     box-shadow: 0 8px 10px -3px rgba(0, 0, 0, 0.15);
+ }
+
+ /* Trạng thái được chọn (trước khi kiểm tra) */
+ .answer-card.selected {
+     border: 3px solid #00c7e0;
+     box-shadow: 0 0 0 4px rgba(0, 199, 224, 0.5);
+ }
+
+ /* Trạng thái trả lời Đúng */
+ .answer-card.correct {
+     background-color: var(--custom-correct);
+     color: white;
+     border-color: var(--custom-correct);
+ }
+
+ /* Trạng thái trả lời Sai */
+ .answer-card.wrong {
+     background-color: var(--custom-wrong);
+     color: white;
+     border-color: var(--custom-wrong);
+ }
+
+ /* Bố cục responsive cho các nút đáp án */
+ .answer-grid {
+     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+ }
+
+ /* Custom style cho nút Thoát Quiz */
+ .exit-quiz-btn {
+     background-color: rgba(255, 255, 255, 0.2);
+     /* Nền mờ nhẹ */
+     border: 1px solid rgba(255, 255, 255, 0.4);
+     padding: 8px 16px;
+     border-radius: 9999px;
+     /* Tròn hẳn */
+     font-weight: 600;
+     color: white;
+     transition: all 0.2s ease-in-out;
+ }
+
+ .exit-quiz-btn:hover {
+     background-color: rgba(255, 255, 255, 0.3);
+     transform: translateY(-1px);
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+ }

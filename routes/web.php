@@ -18,6 +18,8 @@ Route::controller(UserController::class)->group(function () {
 Route::middleware('checklogin')->controller(TestController::class)->group(function(){
     Route::get('create','create')->name('create');
     Route::post('create','postCreate')->name('postCreate');
+    Route::get('dotest','dotest')->name('dotest');
+    Route::get('confirm','postCreate')->name('confirmCreate');
 });
 
 Route::middleware('checklogin')->get('home',[MainController::class,'home'])->name('home');

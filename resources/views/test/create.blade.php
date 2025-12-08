@@ -102,10 +102,11 @@
                         <button type="submit" class="btn btn-primary btn-create text-white shadow">
                             <i class="fa-solid fa-check me-2"></i> Hoàn tất & Tạo bài
                         </button>
-                    </div>
-                    <a href="{{ route('home') }}" class="btn btn-light text-muted">
+                        <a href="{{ route('home') }}" class="btn btn-light text-muted">
                             <i class="fa-solid fa-arrow-left me-2"></i> Quay lại trang chủ
                         </a>
+                    </div>
+                    
                 </form>
             </div>
         </div>

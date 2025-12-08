@@ -68,7 +68,12 @@ class TestController extends Controller
         }
         DB::table('vocabulary')->insert($saveVocabToDB); //insert vao bang vocabulary
 
-        return redirect() -> back() ->with('mess','tao thanh cong');
+        $test = DB::table('test')->where('testID',$testID)->first();
+        return view('test.confirmCreate',compact('test'));
     }
 
+    public function dotest()
+    {
+        return view('test.doTest');
+    }
 }
