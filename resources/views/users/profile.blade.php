@@ -33,10 +33,7 @@
                     <p class="text-2xl font-bold">128</p>
                     <p class="text-sm opacity-80">Bài Quiz Đã Chơi</p>
                 </div>
-                <div class="text-center bg-white bg-opacity-10 p-3 rounded-lg w-full sm:w-1/3 md:w-auto">
-                    <p class="text-2xl font-bold">95%</p>
-                    <p class="text-sm opacity-80">Độ Chính Xác TB</p>
-                </div>
+                
                 <div class="text-center bg-white bg-opacity-10 p-3 rounded-lg w-full sm:w-1/3 md:w-auto">
                     <p class="text-2xl font-bold">8700</p>
                     <p class="text-sm opacity-80">Điểm Cao Nhất</p>
@@ -44,7 +41,7 @@
             </div>
             
             <!-- Nút Cài đặt/Chỉnh sửa (Đặt riêng cho desktop) -->
-            <button class="hidden md:block absolute bottom-8 right-8 px-4 py-2 bg-white text-custom-dark font-semibold rounded-full shadow hover:bg-gray-100 transition">
+            <button class="hidden md:block absolute bottom-3 right-8 px-4 py-2 bg-white text-custom-dark font-semibold rounded-full shadow hover:bg-gray-100 transition ">
                 <i class="fas fa-edit mr-2"></i>Chỉnh sửa Hồ sơ
             </button>
         </div>

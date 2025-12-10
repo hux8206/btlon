@@ -18,7 +18,8 @@ Route::controller(UserController::class)->group(function () {
 Route::middleware('checklogin')->controller(TestController::class)->group(function(){
     Route::get('create','create')->name('create');
     Route::post('create','postCreate')->name('postCreate');
-    Route::get('dotest','dotest')->name('dotest');
+    Route::get('dotest','doTest')->name('doTest');
+    Route::post('dotest','postDoTest')->name('postDoTest');
     Route::get('confirm','postCreate')->name('confirmCreate');
 });
 

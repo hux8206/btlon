@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRequest;
+use App\Http\Requests\DoTestRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -66,14 +67,43 @@ class TestController extends Controller
                 'meaning' => $v['meaning']
             ];
         }
-        DB::table('vocabulary')->insert($saveVocabToDB); //insert vao bang vocabulary
-
+        $vocab = DB::table('vocabulary')->insert($saveVocabToDB); //insert vao bang vocabulary
         $test = DB::table('test')->where('testID',$testID)->first();
+        session(['testID'=> $testID]);
+        session(['vocab'=>$vocab]);
         return view('test.confirmCreate',compact('test'));
     }
 
-    public function dotest()
+    public function doTest()
     {
-        return view('test.doTest');
+        $testID = session('testID');
+        $test = DB::table('test')->where('testID',$testID)->first();
+        $vocab = DB::table('vocabulary')->where('testID',$testID)->get();
+        $vocabs = $vocab->toArray();
+        shuffle($vocabs);
+        return view('test.doTest',compact('vocabs','test'));
+    }
+
+    public function postDoTest(DoTestRequest $request)
+    {
+        $vocabIndex = session('vocabIndex',0);
+        $testID = session('testID');    
+        $vocab = DB::table('vocabulary')->where('testID',$testID)->get();
+        if($vocabIndex >= $vocab->count()){
+            return back()->with('message','ban da hoan thanh');
+        }
+        $answer = $request->get('answer');
+        if(strtolower(trim($answer)) === strtolower(trim($vocab[$vocabIndex]->meaning))){
+            session(['vocabIndex'=>$vocabIndex + 1]);
+            return back()->with([
+                'message'=>'Correct answer !',
+                'status'=>'correct'
+        ]);
+        }else{
+            return back()->with([
+                'message','wrong answer ! the answer is : '. $vocab[$vocabIndex]->meaning,
+                'status'=>'wrong'
+        ]);
+        }
     }
 }

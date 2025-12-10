@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <a href="{{ route('test') }}" class="btn btn-start">
+    <a href="{{ route('doTest') }}" class="btn btn-start">
         DÒ BÀI
     </a>
 
