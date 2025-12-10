@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +51,7 @@
     <header class="quiz-header-bg p-4 shadow-xl bg-custom-main">
       <div class="max-w-6xl mx-auto flex justify-between items-center text-white">
 
-        <a href="{{ route('create') }}" class="exit-quiz-btn flex items-center space-x-2 text-sm">
+        <a href="{{ route('confirmCreate') }}" class="exit-quiz-btn flex items-center space-x-2 text-sm">
           <i class="fas fa-arrow-left"></i>
           <span>Thoát Quiz</span>
         </a>

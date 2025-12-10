@@ -93,6 +93,11 @@ class TestController extends Controller
             return back()->with('message','ban da hoan thanh');
         }
         $answer = $request->get('answer');
+        if ($answer === '__next') {
+            // Lúc này mới tăng câu hỏi
+            session(['vocabIndex' => $vocabIndex + 1]);
+            return redirect()->route('doTest');
+        }
         if(strtolower(trim($answer)) === strtolower(trim($vocab[$vocabIndex]->meaning))){
             session(['vocabIndex'=>$vocabIndex + 1]);
             return back()->with([
@@ -101,7 +106,7 @@ class TestController extends Controller
         ]);
         }else{
             return back()->with([
-                'message','wrong answer ! the answer is : '. $vocab[$vocabIndex]->meaning,
+                'message'=>'wrong answer ! the answer is : '. $vocab[$vocabIndex]->meaning,
                 'status'=>'wrong'
         ]);
         }
