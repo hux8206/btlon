@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CreateRequest;
 use App\Http\Requests\DoTestRequest;
 use Illuminate\Http\Request;
@@ -16,10 +16,19 @@ class TestController extends Controller
 
     public function postCreate(CreateRequest $request)
     {
+
         $file = $request->file('vocabFile'); //lay file upload
-
-        $row = file($file->getRealPath(),FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES); //doc file , xoa khoang trang
-
+        if ($request->hasFile('vocabFile')) {
+            $path = $request->file('vocabFile')->store('vocab_files'); //luu file vao storage  
+            session(['filePath' => $path]); //luu path vao session
+        } else {
+            $path = session('filePath'); //lay path trong session ra
+        }
+        $content = Storage::get($path);
+        $row = explode("\n",$content);
+        $row = array_filter($row, function ($line) { //xoa khoang trang
+            return trim($line) !== '';
+        });
         $vocabs = []; //tao mang luu tu vung
         foreach($row as $r)
         {
@@ -71,6 +80,7 @@ class TestController extends Controller
         $test = DB::table('test')->where('testID',$testID)->first();
         session(['testID'=> $testID]);
         session(['vocab'=>$vocab]);
+        session()->forget('filePath');
         return view('test.confirmCreate',compact('test'));
     }
 

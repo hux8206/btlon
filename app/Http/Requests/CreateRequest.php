@@ -34,12 +34,22 @@ class CreateRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'vocabFile' => 'required|file|mimes:txt|max:2048',
+            
             'timeEachQuestion' => 'required|integer|min:5',
             'quantity' => 'exclude_if:all,1|required|integer|min:1|max:' . $this->maxword,
             'all' =>'boolean',
             'mode' => 'required|in:0,1'
 
         ];
+
+        if ($hasFileInSession) {
+            // Nếu đã có file trong session -> File input là KHÔNG BẮT BUỘC (nullable)
+            $rules['vocabFile'] = 'nullable|file|mimes:csv,txt';
+        } else {
+            // Nếu chưa có file -> BẮT BUỘC phải upload (required)
+            $rules['vocabFile'] = 'required|file|mimes:csv,txt';
+        }
+
+        return $rules;
     }
 }

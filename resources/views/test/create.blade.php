@@ -24,18 +24,25 @@
                         @enderror
                     </div>
                     <!--file tu vung-->
-                    <div class="mb-3">
+                    <div class="row mb-3">
                         <label for="vocabFile" class="form-label">File từ vựng</label>
-                        <input class="form-control @error('vocabFile') is-invalid @enderror"
-                            type="file"
-                            id="vocabFile"
-                            name="vocabFile"
-                            accept=".csv, .txt"
-                            value="{{ old('vocabFile') }}">
-                        <div class="form-text text-muted">
-                            <i class="fa-regular fa-file-lines me-1"></i>
-                            Định dạng mẫu: <code>Từ vựng:Nghĩa</code> (Mỗi từ 1 dòng)
+                        <div class="col-md-6">
+                            <input class="col-md-6 form-control @error('vocabFile') is-invalid @enderror"
+                                type="file"
+                                id="vocabFile"
+                                name="vocabFile"
+                                accept=".csv, .txt"
+                                value="{{ old('vocabFile') }}">
+                            <div class="form-text text-muted">
+                                <i class="fa-regular fa-file-lines me-1"></i>
+                                Định dạng mẫu: <code>Từ vựng:Nghĩa</code> (Mỗi từ 1 dòng)
+                            </div>
                         </div>
+                        <div class="col-md-1 d-flex align-items-center mb-4"><button type="submit"
+                                formaction="{{ route('uploadAndEdit') }}"
+                                class="btn ">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button></div>
                         @error('vocabFile')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -76,8 +83,8 @@
                             </div>
                         </div>
                         <div class="col-md-6 d-flex align-items-center mt-10">
-                                <input class="form-check-input" type="checkbox" id="all" name="all" value="1">
-                                <label class="form-check-label ms-1" for="all">Tất cả</label>
+                            <input class="form-check-input" type="checkbox" id="all" name="all" value="1">
+                            <label class="form-check-label ms-1" for="all">Tất cả</label>
                         </div>
 
                     </div>
@@ -106,7 +113,7 @@
                             <i class="fa-solid fa-arrow-left me-2"></i> Quay lại trang chủ
                         </a>
                     </div>
-                    
+
                 </form>
             </div>
         </div>
