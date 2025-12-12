@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="col-md-1 d-flex align-items-center mb-4"><button type="submit"
-                                formaction="{{ route('uploadAndEdit') }}"
+                                formaction="{{ route('checkUpload') }}"
                                 class="btn ">
                                 <i class="fa-solid fa-pencil"></i>
                             </button></div>

@@ -34,7 +34,6 @@ class CreateRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            
             'timeEachQuestion' => 'required|integer|min:5',
             'quantity' => 'exclude_if:all,1|required|integer|min:1|max:' . $this->maxword,
             'all' =>'boolean',
@@ -43,11 +42,9 @@ class CreateRequest extends FormRequest
         ];
 
         if ($hasFileInSession) {
-            // Nếu đã có file trong session -> File input là KHÔNG BẮT BUỘC (nullable)
-            $rules['vocabFile'] = 'nullable|file|mimes:csv,txt';
+            $rules['vocabFile'] = 'nullable|file|mimes:txt';
         } else {
-            // Nếu chưa có file -> BẮT BUỘC phải upload (required)
-            $rules['vocabFile'] = 'required|file|mimes:csv,txt';
+            $rules['vocabFile'] = 'required|file|mimes:txt';
         }
 
         return $rules;

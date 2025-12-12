@@ -31,7 +31,7 @@ Route::prefix('vocabDetail')->middleware('checklogin')->controller(EditVocabCont
     Route::get('/edit/{index}','edit')->name('edit');
     Route::put('/edit/{index}','postEdit')->name('postEdit');
     Route::delete('/delete/{index}','delete')->name('delete');
-    Route::post('/uploadFile','uploadAndEdit')->name('uploadAndEdit');
+    Route::post('/uploadFile','checkUpload')->name('checkUpload');
 });
 
 Route::middleware('checklogin')->get('home',[MainController::class,'home'])->name('home');

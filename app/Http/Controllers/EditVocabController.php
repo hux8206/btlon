@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Requests\AddVocabRequest;
+use App\Http\Requests\CreateRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class EditVocabController extends Controller
 {
-    // Trong EditVocabController.php
     public function list()
     {
         $path = session('filePath');
@@ -25,19 +25,14 @@ class EditVocabController extends Controller
         return view('test.vocabDetail.list', compact('rows'));
     }
 
-    public function uploadAndEdit(Request $request)
+    public function checkUpload(Request $request)
     {
-        // 1. Validate xem có file không
         $request->validate([
             'vocabFile' => 'required|file|mimes:csv,txt'
         ]);
-
-        // 2. Lưu file và lưu đường dẫn vào Session
         if ($request->hasFile('vocabFile')) {
             $path = $request->file('vocabFile')->store('vocab_files');
-            session(['filePath' => $path]); // Lưu path vào session
-
-            // 3. Chuyển hướng sang trang List
+            session(['filePath' => $path]); 
             return redirect()->route('list');
         }
 
