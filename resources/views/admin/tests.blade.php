@@ -2,7 +2,8 @@
 
 @section('title','TESTS LIST')
 
-@endsection
+@section('page-title','Tests list')
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -15,52 +16,32 @@
                 @endif
                 <thead>
                     <tr>
+                        <th>testID</th>
                         <th>userID</th>
-                        <th>email</th>
-                        <th>fullname</th>
-                        <th>status</th>
+                        <th>title</th>
+                        <th>Time each question</th>
+                        <th>quantity</th>
+                        <th>mode</th>
+                        <th>day created</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($users as $u)
+                    @forelse($tests as $t)
                     <tr>
-                        <td>{{ $u-> userID }}</td>
-                        <td>{{ $u-> email }}</td>
-                        <td>{{ $u-> fullName }}</td>
+                        <td>{{ $t-> testID }}</td>
+                        <td>{{ $t-> userID }}</td>
+                        <td>{{ $t-> title }}</td>
+                        <td>{{ $t-> timeEachQuestion }}</td>
+                        <td>{{ $t-> quantity }}</td>
+                        <td>{{ $t-> mode }}</td>
+                        <td>{{ $t-> dayCreated }}</td>
                         <td>
-                            @if($u->status)
-                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">
-                                Hoạt động
-                            </span>
-                            @else
-                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
-                                Đã khóa
-                            </span>
-                            @endif
-                        </td>
-                        <td>
-                            <form action="{{ route('status', ['id' => $u->userID]) }}" method="POST" class="inline-block">
+                            <a href="{{ route('show') }}" class="btn btn-info btn-sm">Show</a>
+                            <form class="d-inline-block" action="{{route('deleteTest', $t -> testID)}}" method="post">
                                 @csrf
-                                @method('PATCH')
-
-                                @if($u->status)
-                                {{-- Nút Khóa --}}
-                                <button type="submit"
-                                    class="text-red-500 hover:text-red-700 transition"
-                                    title="Vô hiệu hóa user này"
-                                    onclick="return confirm('Bạn có chắc chắn muốn KHÓA tài khoản (ID: {{ $u->userID }}) này không?');">
-                                    <i class="fas fa-lock text-lg"></i>
-                                </button>
-                                @else
-                                {{-- Nút Mở khóa --}}
-                                <button type="submit"
-                                    class="text-green-500 hover:text-green-700 transition"
-                                    title="Kích hoạt user này"
-                                    onclick="return confirm('Bạn có chắc chắn muốn MỞ KHÓA tài khoản (ID: {{ $u->userID }}) này không?');">
-                                    <i class="fas fa-unlock text-lg"></i>
-                                </button>
-                                @endif
+                                @method('DELETE')
+                                <input type="submit" value="Delete" class="btn btn-danger btn-sm">
                             </form>
                         </td>
                     </tr>
@@ -71,7 +52,7 @@
                     @endforelse
                 </tbody>
             </table>
-            <div>{{ $users->links('vendor.pagination.bootstrap-5') }}</div>
+            <div>{{ $tests->links('vendor.pagination.bootstrap-5') }}</div>
         </div>
     </div>
 </div>

@@ -98,12 +98,12 @@
                     <h6 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 px-3">Management</h6>
                     
                     <nav class="flex flex-col space-y-1">
-                        <a href="#" class="sidebar-link flex items-center px-3 py-2 text-custom-dark rounded-md hover:bg-custom-light-bg hover:text-custom-main transition duration-150 group no-underline">
+                        <a href="{{ route('admin') }}" class="sidebar-link flex items-center px-3 py-2 text-custom-dark rounded-md hover:bg-custom-light-bg hover:text-custom-main transition duration-150 group no-underline">
                             <i class="fas fa-users w-6 text-center text-gray-400 group-hover:text-custom-main"></i>
                             <span class="font-medium">Users</span>
                         </a>
 
-                        <a href="#" class="sidebar-link flex items-center px-3 py-2 text-custom-dark rounded-md hover:bg-custom-light-bg hover:text-custom-main transition duration-150 group no-underline">
+                        <a href="{{ route('tests') }}" class="sidebar-link flex items-center px-3 py-2 text-custom-dark rounded-md hover:bg-custom-light-bg hover:text-custom-main transition duration-150 group no-underline">
                             <i class="fas fa-clipboard-list w-6 text-center text-gray-400 group-hover:text-custom-main"></i>
                             <span class="font-medium">Tests</span>
                         </a>

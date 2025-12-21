@@ -35,4 +35,10 @@ class AdminController extends Controller
         $tests = DB::table('test')-> paginate(5);
         return view('admin.tests',compact('tests'));
     }
+
+    public function deleteTest($id)
+    {
+        DB::table('test')->where('testID',$id)->delete();
+        return redirect() -> back() -> with('success','Delete success !');
+    }
 }
