@@ -1,5 +1,8 @@
 @extends('admin.main')
 
+@section('title','TESTS LIST')
+
+@endsection
 @section('content')
 <div class="container">
     <div class="row">

@@ -38,7 +38,6 @@ class CreateRequest extends FormRequest
             'quantity' => 'exclude_if:all,1|required|integer|min:1|max:' . $this->maxword,
             'all' =>'boolean',
             'mode' => 'required|in:0,1'
-
         ];
 
         if ($hasFileInSession) {

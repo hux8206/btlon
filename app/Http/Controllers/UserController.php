@@ -36,15 +36,15 @@ class UserController extends Controller
     {
         $cre = $request->only('email','password');
 
-        if(Auth::attempt($cre)){
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 1])){
             $request -> session() -> regenerate();
             if(Auth::user()->role === 'admin'){
                 return redirect()->route('admin');
             }
             return redirect()->intended('home');
         }
-        return back()->withErrors([
-            'password' => 'The password is wrong !'
+        return back()->with([
+            'unvalid' => 'The account is disable !'
         ]);
 
     }
