@@ -63,96 +63,88 @@
             <!-- Category Card 1: Công Sở -->
             <div class="bg-white p-4 rounded-xl card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-0.5 cursor-pointer flex flex-col items-center justify-center space-y-2">
                 <i class="fas fa-chart-line text-3xl text-yellow-600"></i>
-                <a class="font-semibold text-gray-800 text-center" href="#">Thống kê</a>
+                <a class="font-semibold text-gray-800 text-center" href="{{ route('statistic') }}">Thống kê</a>
             </div>
             <!-- Category Card 2: IELTS -->
             <div class="bg-white p-4 rounded-xl card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-0.5 cursor-pointer flex flex-col items-center justify-center space-y-2">
                 <i class="fas fa-clock-rotate-left text-3xl text-blue-600"></i>
-                <span class="font-semibold text-gray-800 text-center">Lịch sử</span>
+                <a class="font-semibold text-gray-800 text-center" href="{{ route('history') }}">Lịch sử</a>
             </div>
             <!-- Category Card 3: Du Lịch -->
             <div class="bg-white p-4 rounded-xl card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-0.5 cursor-pointer flex flex-col items-center justify-center space-y-2">
                 <i class="fas fa-globe-americas text-3xl text-green-600"></i>
-                <span class="font-semibold text-gray-800 text-center">Khám phá</span>
+                <a class="font-semibold text-gray-800 text-center" href="{{ route('explore') }}">Khám phá</a>
             </div>
             <!-- Category Card 4: Ẩm Thực -->
             <div class="bg-white p-4 rounded-xl card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-0.5 cursor-pointer flex flex-col items-center justify-center space-y-2">
                 <i class="fas fa-heart text-3xl text-red-600"></i>
-                <span class="font-semibold text-gray-800 text-center">Yêu thích</span>
+                <a class="font-semibold text-gray-800 text-center" href="{{ route('favourites') }}">Yêu thích</a>
             </div>
         </div>
     </div>
 
     <!-- 5. CÁC BÀI HỌC NỔI BẬT -->
-    <h2 class="text-3xl font-bold text-custom-dark mb-6 text-center md:text-left">Các Bộ Từ Vựng Nổi bật</h2>
+    <h2 class="text-3xl font-bold text-custom-dark mb-6 text-center md:text-left">Các Bộ Từ Vựng Mới Nhất</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-        <!-- Topic Card 1: 100 Từ Vựng IELTS -->
-        <div class="bg-white rounded-xl overflow-hidden card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-            <div class="p-6">
-                <span class="inline-block bg-pink-100 text-pink-700 text-xs px-3 py-1 rounded-full font-semibold mb-3">IELTS</span>
-                <h3 class="text-xl font-bold text-custom-dark mb-2">100 Từ Vựng "Ăn Điểm" cho IELTS Writing</h3>
-                <p class="text-gray-600 text-sm mb-4">Hệ thống từ Academic hiệu quả để nâng band điểm 7.0+.</p>
-                <div class="flex justify-between items-center text-sm text-gray-500">
+        @forelse($latestTests as $index => $test)
+        @php
+        // Logic để đổi màu ngẫu nhiên cho đẹp (xoay vòng 3 màu)
+        $colors = [
+        ['bg' => 'bg-pink-100', 'text' => 'text-pink-700', 'tag' => 'Mới nhất'],
+        ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'tag' => 'Phổ biến'],
+        ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-700', 'tag' => 'Thử thách'],
+        ];
+        $theme = $colors[$index % 3];
+        @endphp
+
+        <div class="bg-white rounded-xl overflow-hidden card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1 flex flex-col h-full">
+            <div class="p-6 flex-grow">
+
+                {{-- Tag màu sắc --}}
+                <span class="inline-block {{ $theme['bg'] }} {{ $theme['text'] }} text-xs px-3 py-1 rounded-full font-semibold mb-3">
+                    {{ $theme['tag'] }}
+                </span>
+
+                {{-- Tiêu đề bài Test --}}
+                <h3 class="text-xl font-bold text-custom-dark mb-2 line-clamp-2" title="{{ $test->title }}">
+                    {{ $test->title }}
+                </h3>
+
+                {{-- Mô tả (nếu DB chưa có cột description thì tạm để text mặc định hoặc ngày tạo) --}}
+                <p class="text-gray-600 text-sm mb-4">
+                    Ngày tạo: {{ \Carbon\Carbon::parse($test->dayCreated)->format('d/m/Y') }}
+                </p>
+
+                {{-- Thông số: Số câu & Lượt chơi --}}
+                <div class="flex justify-between items-center text-sm text-gray-500 mt-auto">
                     <span class="flex items-center space-x-1">
                         <i class="fas fa-list-alt text-custom-main"></i>
-                        <span>50 Câu hỏi</span>
+                        <span>{{ $test->quantity }} Câu hỏi</span>
                     </span>
                     <span class="flex items-center space-x-1">
                         <i class="fas fa-user-graduate text-custom-main"></i>
-                        <span>1.2K Lượt chơi</span>
+                        <span>{{ $test->play_count }} Lượt chơi</span>
                     </span>
                 </div>
-                <button class="mt-4 w-full py-2 bg-custom-main text-white rounded-lg font-semibold hover:bg-custom-dark transition">
-                    Bắt đầu Chơi
-                </button>
+
+                {{-- Nút Bắt đầu --}}
+                <form action="{{ route('joinTest',['id' => $test->testID]) }}" method="GET" class="mt-4">
+                    {{-- Tạm thời trỏ về create, lý tưởng nhất là có route preview --}}
+                    <button type="submit" class="w-full py-2 bg-custom-main text-white rounded-lg font-semibold hover:bg-custom-dark transition">
+                        Xem chi tiết
+                    </button>
+                </form>
             </div>
         </div>
 
-        <!-- Topic Card 2: Từ Vựng Giao tiếp Hàng ngày -->
-        <div class="bg-white rounded-xl overflow-hidden card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-            <div class="p-6">
-                <span class="inline-block bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold mb-3">Giao tiếp</span>
-                <h3 class="text-xl font-bold text-custom-dark mb-2">Từ Vựng Tiếng Anh Giao Tiếp Cơ Bản</h3>
-                <p class="text-gray-600 text-sm mb-4">Các cụm từ cần thiết cho cuộc sống và công việc hàng ngày.</p>
-                <div class="flex justify-between items-center text-sm text-gray-500">
-                    <span class="flex items-center space-x-1">
-                        <i class="fas fa-list-alt text-custom-main"></i>
-                        <span>40 Câu hỏi</span>
-                    </span>
-                    <span class="flex items-center space-x-1">
-                        <i class="fas fa-user-graduate text-custom-main"></i>
-                        <span>3.5K Lượt chơi</span>
-                    </span>
-                </div>
-                <button class="mt-4 w-full py-2 bg-custom-main text-white rounded-lg font-semibold hover:bg-custom-dark transition">
-                    Bắt đầu Chơi
-                </button>
-            </div>
+        @empty
+        <div class="col-span-3 text-center py-10">
+            <p class="text-gray-500 text-lg">Chưa có bài học nào được tạo.</p>
+            <a href="{{ route('joinTest') }}" class="text-custom-main font-bold hover:underline">Tạo bài đầu tiên ngay!</a>
         </div>
-
-        <!-- Topic Card 3: Idioms Phổ biến -->
-        <div class="bg-white rounded-xl overflow-hidden card-shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-            <div class="p-6">
-                <span class="inline-block bg-yellow-100 text-yellow-700 text-xs px-3 py-1 rounded-full font-semibold mb-3">Thành ngữ</span>
-                <h3 class="text-xl font-bold text-custom-dark mb-2">Các Idioms "Tây" Nhất để Nói Tự Nhiên</h3>
-                <p class="text-gray-600 text-sm mb-4">Giúp bạn nghe và nói như người bản xứ ngay lập tức.</p>
-                <div class="flex justify-between items-center text-sm text-gray-500">
-                    <span class="flex items-center space-x-1">
-                        <i class="fas fa-list-alt text-custom-main"></i>
-                        <span>30 Câu hỏi</span>
-                    </span>
-                    <span class="flex items-center space-x-1">
-                        <i class="fas fa-user-graduate text-custom-main"></i>
-                        <span>900 Lượt chơi</span>
-                    </span>
-                </div>
-                <button class="mt-4 w-full py-2 bg-custom-main text-white rounded-lg font-semibold hover:bg-custom-dark transition">
-                    Bắt đầu Chơi
-                </button>
-            </div>
-        </div>
+        @endforelse
 
     </div>
 

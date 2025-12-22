@@ -149,6 +149,9 @@ class TestController extends Controller
     // 5. HÀM RIÊNG ĐỂ LƯU VÀO BẢNG HISTORY
     private function saveHistory($testID, $isFinished)
     {
+        if (empty($testID)) {
+            return redirect()->route('create')->with('error', 'Phiên làm việc đã hết hạn hoặc không tìm thấy bài thi.');
+        }
         $userID = Auth::id();
         $score = session('score', 0);         // Số câu đúng
         $completed = session('vocabIndex', 0); // Số câu đã làm
@@ -181,13 +184,19 @@ class TestController extends Controller
 
         $totalQuestions = DB::table('vocabulary')->where('testID', $testID)->count();
 
+        $isFavorited = DB::table('favourites')
+            ->where('userID', Auth::id())
+            ->where('testID', $testID)
+            ->exists(); // Trả về true/false
+
         $resultData = [
             'testID' => $testID,
             'score' => $score,
             'completed' => $completed,
             'total_test' => $totalQuestions,
             'percentage' => ($completed > 0) ? round(($score / $completed) * 100) : 0,
-            'attempt' => $currentAttempt
+            'attempt' => $currentAttempt,
+            'isFavorited' => $isFavorited
         ];
 
         // Xóa session để reset
@@ -214,5 +223,55 @@ class TestController extends Controller
 
         // 3. Chuyển hướng thẳng đến trang làm bài
         return redirect()->route('doTest');
+    }
+
+    public function joinTest($id)
+    {
+        // 1. Tìm bài test trong DB
+        $test = DB::table('test')->where('testID', $id)->first();
+
+        // Kiểm tra nếu bài test không tồn tại
+        if (!$test) {
+            return redirect()->route('home')->with('error', 'Bài thi không tồn tại!');
+        }
+
+        // 2. Cài đặt Session (QUAN TRỌNG: Reset lại từ đầu)
+        session(['testID' => $id]);     // Lưu ID bài thi đang chọn
+        session(['vocabIndex' => 0]);   // Reset câu hỏi về 0
+        session(['score' => 0]);        // Reset điểm về 0
+
+        // Xóa các session rác nếu có
+        session()->forget(['filePath', 'vocab']);
+
+        // 3. Chuyển sang trang xác nhận
+        // Trang này sẽ hiện: "Bạn đã chọn bài ABC, thời gian 60s..."
+        return view('test.confirmCreate', compact('test'));
+    }
+
+    public function favourite($id)
+    {
+        $userID = Auth::id();
+        
+        // Kiểm tra xem đã like chưa
+        $existing = DB::table('favourites')
+            ->where('userID', $userID)
+            ->where('testID', $id)
+            ->first();
+
+        if ($existing) {
+            // Nếu có rồi -> XÓA (Un-like)
+            DB::table('favourites')->where('id', $existing->id)->delete();
+            $message = 'Đã xóa khỏi mục yêu thích!';
+        } else {
+            // Nếu chưa có -> THÊM (Like)
+            DB::table('favourites')->insert([
+                'userID' => $userID,
+                'testID' => $id,
+                'created_at' => now()
+            ]);
+            $message = 'Đã thêm vào mục yêu thích!';
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 }

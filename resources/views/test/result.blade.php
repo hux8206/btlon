@@ -60,6 +60,21 @@
 
             {{-- Các nút hành động --}}
             <div class="space-y-3">
+                <form action="{{ route('favourite', ['id' => $resultData['testID']]) }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="w-full py-3 mb-2 rounded-lg font-bold border-2 transition flex items-center justify-center
+            {{ $resultData['isFavorited'] 
+                ? 'bg-pink-50 border-pink-500 text-pink-600 hover:bg-pink-100' 
+                : 'bg-white border-gray-300 text-gray-500 hover:border-pink-400 hover:text-pink-500' 
+            }}">
+
+                        {{-- Icon đổi theo trạng thái --}}
+                        <i class="{{ $resultData['isFavorited'] ? 'fas' : 'far' }} fa-heart text-xl mr-2"></i>
+
+                        <span>{{ $resultData['isFavorited'] ? 'Đã yêu thích' : 'Thêm vào yêu thích' }}</span>
+                    </button>
+                </form>
                 <a href="{{ route('retryTest', ['id' => $resultData['testID']]) }}"
                     class="block w-full py-3 bg-cyan-600 text-white text-center font-bold rounded-lg shadow-md hover:bg-cyan-700 transition transform hover:-translate-y-0.5">
                     <i class="fas fa-redo-alt mr-2"></i> Làm lại bài này

@@ -16,14 +16,16 @@ Route::controller(UserController::class)->group(function () {
     Route::get('profile','profile')->name('profile');
 });
 
-Route::prefix('create')->middleware('checklogin')->controller(TestController::class)->group(function(){
-    Route::get('/','create')->name('create');
+Route::prefix('test')->middleware('checklogin')->controller(TestController::class)->group(function(){
+    Route::get('/create','create')->name('create');
     Route::post('/confirm','postCreate')->name('postCreate');
     Route::get('/dotest','doTest')->name('doTest');
     Route::post('/dotest','postDoTest')->name('postDoTest');
     Route::get('/confirm','postCreate')->name('confirmCreate');
     Route::get('/dotest/cancel','cancelTest') -> name('cancelTest');
     Route::get('/dotest/retry/{id}','retryTest')->name('retryTest');
+    Route::get('/join/{id}','joinTest')->name('joinTest');
+    Route::post('/favourite/{id}','favourite')->name('favourite');
 });
 
 Route::prefix('vocabDetail')->middleware('checklogin')->controller(EditVocabController::class)->group(function(){
@@ -36,4 +38,12 @@ Route::prefix('vocabDetail')->middleware('checklogin')->controller(EditVocabCont
     Route::post('/uploadFile','checkUpload')->name('checkUpload');
 });
 
-Route::middleware('checklogin')->get('home',[MainController::class,'home'])->name('home');
+Route::prefix('home')->middleware('checklogin')->controller(MainController::class)->group(function(){
+    Route::get('/','home')->name('home');
+    Route::get('/history','history')->name('history');
+    Route::delete('/history/clear','clearHistory')->name('clearHistory');
+    Route::get('/explore','explore')->name('explore');
+    Route::post('/explore/private','private')->name('private');
+    Route::get('/favourites','favourites')->name('favourites');
+    Route::get('/statistic','statistic')->name('statistic');
+});
