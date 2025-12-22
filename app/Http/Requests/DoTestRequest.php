@@ -22,7 +22,7 @@ class DoTestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'answer' => 'string|required'
+            'answer' => 'string|nullable'
         ];
     }
 }

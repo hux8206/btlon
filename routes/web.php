@@ -22,6 +22,8 @@ Route::prefix('create')->middleware('checklogin')->controller(TestController::cl
     Route::get('/dotest','doTest')->name('doTest');
     Route::post('/dotest','postDoTest')->name('postDoTest');
     Route::get('/confirm','postCreate')->name('confirmCreate');
+    Route::get('/dotest/cancel','cancelTest') -> name('cancelTest');
+    Route::get('/dotest/retry/{id}','retryTest')->name('retryTest');
 });
 
 Route::prefix('vocabDetail')->middleware('checklogin')->controller(EditVocabController::class)->group(function(){

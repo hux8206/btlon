@@ -63,7 +63,7 @@
                 <div class="flex justify-between items-center h-16">
 
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ route('home') }}" class="text-2xl font-extrabold text-custom-dark flex items-center no-underline hover:no-underline">
+                        <a href="{{ route('admin') }}" class="text-2xl font-extrabold text-custom-dark flex items-center no-underline hover:no-underline">
                             <i class="fas fa-book-open mr-2 text-custom-main"></i>ADMIN
                         </a>
                     </div>

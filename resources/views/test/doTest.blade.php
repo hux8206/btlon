@@ -51,7 +51,7 @@
     <header class="quiz-header-bg p-4 shadow-xl bg-custom-main">
       <div class="max-w-6xl mx-auto flex justify-between items-center text-white">
 
-        <a href="{{ route('confirmCreate') }}" class="exit-quiz-btn flex items-center space-x-2 text-sm">
+        <a href="{{ route('cancelTest') }}" class="exit-quiz-btn flex items-center space-x-2 text-sm">
           <i class="fas fa-arrow-left"></i>
           <span>Thoát Quiz</span>
         </a>
