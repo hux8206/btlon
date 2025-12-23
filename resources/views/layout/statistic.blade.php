@@ -1,4 +1,5 @@
 @extends('layout.main')
+@section('title','Statistic')
 
 @section('content')
 {{-- Thêm thư viện Chart.js --}}

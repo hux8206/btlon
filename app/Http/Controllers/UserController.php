@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Http\Request;
@@ -64,9 +63,4 @@ class UserController extends Controller
     {
         return view('start');
     }
-
-    public function profile()
-    {
-        return view('users.profile');
-    } 
 }

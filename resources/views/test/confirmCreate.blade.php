@@ -12,9 +12,6 @@
 <body>
 
 <div class="card-detail">
-    <a href="{{ route('create') }}" class="btn-back">
-        <i class="fa-solid fa-arrow-left-long"></i> </a>
-
     <div class="test-id">ID: <span class="text-primary">{{ $test->testID }}</span>
     </div>
 

@@ -1,5 +1,5 @@
 @extends('layout.main')
-
+@section('title','Favourite')
 @section('content')
 <div class="max-w-5xl mx-auto py-12 px-4">
 

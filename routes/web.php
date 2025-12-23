@@ -5,6 +5,7 @@ use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EditVocabController;
+use App\Http\Controllers\ProfileController;
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/','start')->name('start');
@@ -13,7 +14,6 @@ Route::controller(UserController::class)->group(function () {
     Route::get('login', 'login')->name('login');
     Route::post('login', 'postLogin')->name('postLogin');
     Route::get('logout','logout')->name('logout');
-    Route::get('profile','profile')->name('profile');
 });
 
 Route::prefix('test')->middleware('checklogin')->controller(TestController::class)->group(function(){
@@ -46,4 +46,18 @@ Route::prefix('home')->middleware('checklogin')->controller(MainController::clas
     Route::post('/explore/private','private')->name('private');
     Route::get('/favourites','favourites')->name('favourites');
     Route::get('/statistic','statistic')->name('statistic');
+});
+
+Route::prefix('profile')->middleware('checklogin')->controller(ProfileController::class)->group(function(){
+    Route::get('/','profile')->name('profile');
+    Route::get('/myTests','myTests')->name('myTests');
+    Route::get('/manageTest/{id}','manageTest')->name('manageTest');
+    Route::post('/manageTest/update/{id}','updateTest')->name('updateTest');
+    Route::delete('/manageTest/delete/{id}','deleteTest')->name('deleteTest');
+    Route::get('/manageTest/editvocab/{id}','editVocab')->name('editVocab');
+    Route::post('/manageTest/editvocab/add/{id}','addVocab')->name('addVocab');
+    Route::post('/manageTest/editvocab/update/{id}','updateVocab')->name('updateVocab');
+    Route::delete('/manageTest/editvocab/delete/{id}','deleteVocab')->name('deleteVocab');
+    Route::post('/info/update','updateInfo')->name('updateInfo');
+    Route::post('/info/changepassword','changePassword')->name('changePassword');
 });
