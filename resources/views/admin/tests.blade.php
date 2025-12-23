@@ -37,8 +37,8 @@
                         <td>{{ $t-> mode }}</td>
                         <td>{{ $t-> dayCreated }}</td>
                         <td>
-                            <a href="{{ route('show') }}" class="btn btn-info btn-sm">Show</a>
-                            <form class="d-inline-block" action="{{route('deleteTest', $t -> testID)}}" method="post">
+                            <a href="{{ route('manage',['id'=>$t->testID]) }}" class="btn btn-info btn-sm">Show</a>
+                            <form class="d-inline-block" action="{{route('deleteTestAdmin', $t -> testID)}}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <input type="submit" value="Delete" class="btn btn-danger btn-sm">

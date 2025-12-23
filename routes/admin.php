@@ -7,6 +7,6 @@ Route::prefix('admin')->middleware(['checklogin','admin'])->controller(AdminCont
     Route::get('home', 'admin')->name('admin');
     Route::patch('/user/{id}','status')->name('status');
     Route::get('/tests','tests')->name('tests');
-    Route::get('/show','show')->name('show');
-    Route::delete('/delete/{id}','deleteTest')->name('deleteTest');
+    Route::delete('/delete/{id}','deleteTest')->name('deleteTestAdmin');
+    Route::get('/manage/{id}','manage')->name('manage');
 });
