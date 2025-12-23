@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
@@ -66,5 +67,48 @@ class AdminController extends Controller
             ->get();
 
         return view('admin.show', compact('test', 'playerHistory'));
+    }
+
+    public function statistic()
+    {
+        // 1. CÁC SỐ LIỆU TỔNG QUAN
+        $totalUsers = DB::table('users')->count();
+        $totalTests = DB::table('test')->count();
+        $totalPlays = DB::table('history')->count();
+
+        // User mới đăng ký trong tháng nà
+
+        // 2. DỮ LIỆU BIỂU ĐỒ (Số bài thi tạo ra trong 7 ngày gần nhất)
+        $chartData = [];
+        $chartLabels = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::now()->subDays($i);
+            $chartLabels[] = $date->format('d/m'); // Nhãn ngày (VD: 20/10)
+
+            $count = DB::table('test')
+                ->whereDate('dayCreated', $date->toDateString()) // Lưu ý: Cột ngày tạo của bạn là 'dayCreated'
+                ->count();
+
+            $chartData[] = $count;
+        }
+
+        // 3. TOP 5 NGƯỜI CHƠI TÍCH CỰC (Đã làm ở câu trước, tái sử dụng)
+        $topUsers = DB::table('users')
+            ->leftJoin('history', 'users.userID', '=', 'history.userID')
+            ->select('users.fullName', 'users.email', DB::raw('COUNT(history.historyID) as total_played'))
+            ->groupBy('users.userID', 'users.fullName', 'users.email')
+            ->orderBy('total_played', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('admin.statistic', compact(
+            'totalUsers',
+            'totalTests',
+            'totalPlays',
+            'chartLabels',
+            'chartData',
+            'topUsers'
+        ));
     }
 }

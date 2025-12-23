@@ -108,7 +108,7 @@
                             <span class="font-medium">Tests</span>
                         </a>
 
-                        <a href="#" class="sidebar-link flex items-center px-3 py-2 text-custom-dark rounded-md hover:bg-custom-light-bg hover:text-custom-main transition duration-150 group no-underline">
+                        <a href="{{ route('statisticAdmin') }}" class="sidebar-link flex items-center px-3 py-2 text-custom-dark rounded-md hover:bg-custom-light-bg hover:text-custom-main transition duration-150 group no-underline">
                             <i class="fas fa-chart-line w-6 text-center text-gray-400 group-hover:text-custom-main"></i>
                             <span class="font-medium">Analytics</span>
                         </a>

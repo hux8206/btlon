@@ -9,4 +9,5 @@ Route::prefix('admin')->middleware(['checklogin','admin'])->controller(AdminCont
     Route::get('/tests','tests')->name('tests');
     Route::delete('/delete/{id}','deleteTest')->name('deleteTestAdmin');
     Route::get('/manage/{id}','manage')->name('manage');
+    Route::get('/statistic','statistic')->name('statisticAdmin');
 });
