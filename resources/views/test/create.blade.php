@@ -18,7 +18,7 @@
                             id="title"
                             name="title"
                             placeholder="Ví dụ: Từ vựng Unit 1"
-                            value="{{ old('title') }}">
+                            value="{{ old('title',session('saved_title')) }}">
                         @error('title')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -32,7 +32,7 @@
                                 id="vocabFile"
                                 name="vocabFile"
                                 accept=".csv, .txt"
-                                value="{{ old('vocabFile') }}">
+                                value="{{ old('vocabFile',session('filePath')) }}">
                             <div class="form-text text-muted">
                                 <i class="fa-regular fa-file-lines me-1"></i>
                                 Định dạng mẫu: <code>Từ vựng:Nghĩa</code> (Mỗi từ 1 dòng)
@@ -57,7 +57,7 @@
                                 class="form-control @error('timeEachQuestion') is-invalid @enderror"
                                 id="timeEachQuestion"
                                 name="timeEachQuestion"
-                                value="{{ old('timeEachQuestion', ) }}"
+                                value="{{ old('timeEachQuestion',session('saved_time') ) }}"
                                 min="5">
                             @error('timeEachQuestion')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -75,7 +75,7 @@
                                     class="form-control @error('quantity') is-invalid @enderror"
                                     id="quantity"
                                     name="quantity"
-                                    value="{{ old('quantity', ) }}"
+                                    value="{{ old('quantity',session('saved_quantity') ) }}"
                                     min="1">
                                 @error('quantity')
                                 <div class="invalid-feedback">{{ $message }}</div>

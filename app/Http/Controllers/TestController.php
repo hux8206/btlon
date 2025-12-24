@@ -48,12 +48,12 @@ class TestController extends Controller
 
         $isMax = $request->has('all'); //bien lay tat ca tu vung
         $totalVocab = count($vocabs); //dem so luong tu
+        shuffle($vocabs); //xao tron
         if ($isMax) { //kiem tra co chon max k
             $quantity = $totalVocab;
             $vocabToSave = $vocabs;
         } else {
             $quantity = min($request->get('quantity'), $totalVocab); //lay min giua so tu user nhap va tong tu
-            shuffle($vocabs); //xao tron
             $vocabToSave = array_slice($vocabs, 0, $quantity); //lay cac tu 0 den quantity
         }
 
@@ -80,8 +80,14 @@ class TestController extends Controller
         session(['testID' => $testID]);
         session(['vocab' => $vocab]);
         session(['vocabIndex' => 0]);
-        session(['score', 0]);
-        session()->forget('filePath');
+        session(['score' => 0]);
+        session()->forget([
+            'filePath',
+            'saved_title',
+            'saved_time',
+            'saved_mode',
+            'saved_quantity'
+        ]);
         return view('test.confirmCreate', compact('test'));
     }
 
@@ -119,7 +125,6 @@ class TestController extends Controller
 
         // Logic Check Đúng/Sai
         if (strtolower(trim($answer)) === strtolower(trim($vocabs[$vocabIndex]->meaning))) {
-            // ĐÚNG: Cộng điểm
             session(['score' => $currentScore + 1]);
 
             return back()->with([
@@ -127,8 +132,6 @@ class TestController extends Controller
                 'status' => 'correct'
             ]);
         } else {
-            // SAI: Không cộng điểm (nhưng vẫn có thể cho qua hoặc bắt làm lại tùy bạn)
-            // Ở đây giữ logic của bạn: Sai thì ở lại trang đó, không tăng index
             return back()->with([
                 'message' => 'Wrong answer! The answer is: ' . $vocabs[$vocabIndex]->meaning,
                 'status' => 'wrong'
@@ -170,13 +173,11 @@ class TestController extends Controller
             'userID' => $userID,
             'correct_question' => $score,
             'question_completed' => $completed,
-            'numOfPlay'=> $currentAttempt,
+            'numOfPlay' => $currentAttempt,
             'done_at' => now()
             // Schema của bạn không có cột timestamps (created_at) nên không cần thêm
         ]);
-
-        // Tính toán thêm dữ liệu để hiển thị ra màn hình kết quả
-        // Đếm xem người này đã chơi bài test này bao nhiêu lần
+        
         $attemptCount = DB::table('history')
             ->where('testID', $testID)
             ->where('userID', $userID)
@@ -216,10 +217,10 @@ class TestController extends Controller
             return redirect()->route('create')->with('error', 'Bài test không tồn tại.');
         }
 
-        // 2. Thiết lập lại Session như lúc mới tạo
+        
         session(['testID' => $testID]);
-        session(['vocabIndex' => 0]); // Reset câu hỏi về 0
-        session(['score' => 0]);      // Reset điểm về 0
+        session(['vocabIndex' => 0]); 
+        session(['score' => 0]);      
 
         // 3. Chuyển hướng thẳng đến trang làm bài
         return redirect()->route('doTest');
@@ -235,23 +236,19 @@ class TestController extends Controller
             return redirect()->route('home')->with('error', 'Bài thi không tồn tại!');
         }
 
-        // 2. Cài đặt Session (QUAN TRỌNG: Reset lại từ đầu)
-        session(['testID' => $id]);     // Lưu ID bài thi đang chọn
-        session(['vocabIndex' => 0]);   // Reset câu hỏi về 0
-        session(['score' => 0]);        // Reset điểm về 0
+        
+        session(['testID' => $id]);     
+        session(['vocabIndex' => 0]);   
+        session(['score' => 0]);        
 
-        // Xóa các session rác nếu có
         session()->forget(['filePath', 'vocab']);
-
-        // 3. Chuyển sang trang xác nhận
-        // Trang này sẽ hiện: "Bạn đã chọn bài ABC, thời gian 60s..."
         return view('test.confirmCreate', compact('test'));
     }
 
     public function favourite($id)
     {
         $userID = Auth::id();
-        
+
         // Kiểm tra xem đã like chưa
         $existing = DB::table('favourites')
             ->where('userID', $userID)

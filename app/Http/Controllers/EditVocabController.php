@@ -27,16 +27,40 @@ class EditVocabController extends Controller
 
     public function checkUpload(Request $request)
     {
-        $request->validate([
-            'vocabFile' => 'required|file|mimes:csv,txt'
+        // 1. Validate everything at once
+        // If this fails, Laravel redirects back automatically with errors.
+        // Inputs are automatically flashed to session (accessible via old('title')).
+        $validated = $request->validate([
+            'vocabFile' => 'required|file|mimes:csv,txt',
+            'title'     => 'nullable|string', // Add validation for other fields
+            'time'      => 'nullable|numeric',
+            'mode'      => 'nullable',
+            'quantity'  => 'nullable|numeric',
+        ], [
+            // Custom error message for the file
+            'vocabFile.required' => 'Vui lòng chọn file trước!',
+            'vocabFile.mimes'    => 'File phải có định dạng .csv hoặc .txt',
         ]);
+
+        // 2. Handle the File Upload
         if ($request->hasFile('vocabFile')) {
             $path = $request->file('vocabFile')->store('vocab_files');
-            session(['filePath' => $path]); 
+
+            // 3. Save ALL necessary data to session for the next step
+            session([
+                'filePath'       => $path,
+                'saved_title'    => $request->input('title'),
+                'saved_time'     => $request->input('timeEachQuestion'),
+                'saved_mode'     => $request->input('mode'),
+                'saved_quantity' => $request->input('quantity'),
+            ]);
+
             return redirect()->route('list');
         }
 
-        return redirect()->back()->with('message', 'Vui lòng chọn file trước!');
+        // This part is technically redundant because of the 'required' rule above,
+        // but acts as a fallback if validation logic changes.
+        return redirect()->back()->with('message', 'Upload thất bại.');
     }
 
     public function add()
