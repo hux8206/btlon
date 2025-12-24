@@ -2,7 +2,6 @@
 @section('title','Statistic')
 
 @section('content')
-{{-- Thêm thư viện Chart.js --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 bg-gray-50 min-h-screen">

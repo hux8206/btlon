@@ -18,20 +18,20 @@ class TestController extends Controller
 
     public function postCreate(CreateRequest $request)
     {
-
-        $file = $request->file('vocabFile'); //lay file upload
         if ($request->hasFile('vocabFile')) {
-            $path = $request->file('vocabFile')->store('vocab_files'); //luu file vao storage  
-            session(['filePath' => $path]); //luu path vao session
+            $path = $request->file('vocabFile')->store('vocab_files');
+            session(['filePath' => $path]);
         } else {
-            $path = session('filePath'); //lay path trong session ra
+            $path = session('filePath');
         }
+
         $content = Storage::get($path);
         $row = explode("\n", $content);
-        $row = array_filter($row, function ($line) { //xoa khoang trang
+        $row = array_filter($row, function ($line) {
             return trim($line) !== '';
         });
-        $vocabs = []; //tao mang luu tu vung
+
+        $vocabs = [];
         foreach ($row as $r) {
             $part = explode(':', $r);
             if (count($part) == 2) {
@@ -46,18 +46,18 @@ class TestController extends Controller
             return back()->withErrors(['vocabFile' => 'File error !']);
         }
 
-        $isMax = $request->has('all'); //bien lay tat ca tu vung
-        $totalVocab = count($vocabs); //dem so luong tu
-        shuffle($vocabs); //xao tron
-        if ($isMax) { //kiem tra co chon max k
+        $isMax = $request->has('all');
+        $totalVocab = count($vocabs);
+        shuffle($vocabs);
+
+        if ($isMax) {
             $quantity = $totalVocab;
             $vocabToSave = $vocabs;
         } else {
-            $quantity = min($request->get('quantity'), $totalVocab); //lay min giua so tu user nhap va tong tu
-            $vocabToSave = array_slice($vocabs, 0, $quantity); //lay cac tu 0 den quantity
+            $quantity = min($request->get('quantity'), $totalVocab);
+            $vocabToSave = array_slice($vocabs, 0, $quantity);
         }
 
-        //luu vao 2 bang trong csdl
         $testID = DB::table('test')->insertGetId([
             'userID' => Auth::id(),
             'title' => $request->get('title'),
@@ -67,7 +67,7 @@ class TestController extends Controller
             'dayCreated' => now()
         ]);
 
-        $saveVocabToDB = []; //luu tu vung vao mang
+        $saveVocabToDB = [];
         foreach ($vocabToSave as $v) {
             $saveVocabToDB[] = [
                 'testID' => $testID,
@@ -75,12 +75,15 @@ class TestController extends Controller
                 'meaning' => $v['meaning']
             ];
         }
-        $vocab = DB::table('vocabulary')->insert($saveVocabToDB); //insert vao bang vocabulary
+
+        DB::table('vocabulary')->insert($saveVocabToDB);
+
         $test = DB::table('test')->where('testID', $testID)->first();
+
         session(['testID' => $testID]);
-        session(['vocab' => $vocab]);
         session(['vocabIndex' => 0]);
         session(['score' => 0]);
+
         session()->forget([
             'filePath',
             'saved_title',
@@ -88,6 +91,7 @@ class TestController extends Controller
             'saved_mode',
             'saved_quantity'
         ]);
+
         return view('test.confirmCreate', compact('test'));
     }
 
@@ -96,10 +100,13 @@ class TestController extends Controller
         $testID = session('testID');
         $vocab = DB::table('vocabulary')->where('testID', $testID)->get();
         $vocabIndex = session('vocabIndex', 0);
+
         if ($vocabIndex >= $vocab->count()) {
             return $this->saveHistory($testID, true);
         }
+
         $test = DB::table('test')->where('testID', $testID)->first();
+
         return view('test.doTest', compact('vocab', 'test'));
     }
 
@@ -109,21 +116,18 @@ class TestController extends Controller
         $testID = session('testID');
         $vocabs = DB::table('vocabulary')->where('testID', $testID)->get();
 
-        // Check cơ bản
         if ($vocabIndex >= $vocabs->count()) {
             return $this->saveHistory($testID, true);
         }
 
         $answer = $request->get('answer') ?? '';
-        $currentScore = session('score', 0); // Lấy điểm hiện tại
+        $currentScore = session('score', 0);
 
-        // Logic Check Next
         if ($answer === '__next') {
             session(['vocabIndex' => $vocabIndex + 1]);
             return redirect()->route('doTest');
         }
 
-        // Logic Check Đúng/Sai
         if (strtolower(trim($answer)) === strtolower(trim($vocabs[$vocabIndex]->meaning))) {
             session(['score' => $currentScore + 1]);
 
@@ -131,43 +135,42 @@ class TestController extends Controller
                 'message' => 'Correct answer!',
                 'status' => 'correct'
             ]);
-        } else {
-            return back()->with([
-                'message' => 'Wrong answer! The answer is: ' . $vocabs[$vocabIndex]->meaning,
-                'status' => 'wrong'
-            ]);
         }
+
+        return back()->with([
+            'message' => 'Wrong answer! The answer is: ' . $vocabs[$vocabIndex]->meaning,
+            'status' => 'wrong'
+        ]);
     }
 
-    // 4. HÀM MỚI: XỬ LÝ NÚT THOÁT (Lưu dở dang)
     public function cancelTest()
     {
         $testID = session('testID');
+
         if ($testID) {
-            return $this->saveHistory($testID, false); // false = chưa xong hẳn
+            return $this->saveHistory($testID, false);
         }
+
         return redirect()->route('create');
     }
 
-    // 5. HÀM RIÊNG ĐỂ LƯU VÀO BẢNG HISTORY
     private function saveHistory($testID, $isFinished)
     {
         if (empty($testID)) {
             return redirect()->route('create')->with('error', 'Phiên làm việc đã hết hạn hoặc không tìm thấy bài thi.');
         }
+
         $userID = Auth::id();
-        $score = session('score', 0);         // Số câu đúng
-        $completed = session('vocabIndex', 0); // Số câu đã làm
+        $score = session('score', 0);
+        $completed = session('vocabIndex', 0);
 
         $lastAttempt = DB::table('history')
             ->where('testID', $testID)
             ->where('userID', $userID)
-            ->max('numOfPlay'); // Hàm max sẽ lấy giá trị cao nhất
+            ->max('numOfPlay');
 
-        // Nếu chưa chơi lần nào ($lastAttempt là null) thì gán là 1, ngược lại cộng thêm 1
         $currentAttempt = $lastAttempt ? ($lastAttempt + 1) : 1;
 
-        // Insert vào bảng history của bạn
         DB::table('history')->insert([
             'testID' => $testID,
             'userID' => $userID,
@@ -175,20 +178,14 @@ class TestController extends Controller
             'question_completed' => $completed,
             'numOfPlay' => $currentAttempt,
             'done_at' => now()
-            // Schema của bạn không có cột timestamps (created_at) nên không cần thêm
         ]);
-        
-        $attemptCount = DB::table('history')
-            ->where('testID', $testID)
-            ->where('userID', $userID)
-            ->count();
 
         $totalQuestions = DB::table('vocabulary')->where('testID', $testID)->count();
 
         $isFavorited = DB::table('favourites')
-            ->where('userID', Auth::id())
+            ->where('userID', $userID)
             ->where('testID', $testID)
-            ->exists(); // Trả về true/false
+            ->exists();
 
         $resultData = [
             'testID' => $testID,
@@ -200,48 +197,40 @@ class TestController extends Controller
             'isFavorited' => $isFavorited
         ];
 
-        // Xóa session để reset
         session()->forget(['vocabIndex', 'testID', 'score']);
 
         return view('test.result', compact('resultData'));
     }
 
-    // Thêm vào TestController.php
-
     public function retryTest($testID)
     {
-        // 1. Kiểm tra bài test có tồn tại không
         $test = DB::table('test')->where('testID', $testID)->first();
 
         if (!$test) {
             return redirect()->route('create')->with('error', 'Bài test không tồn tại.');
         }
 
-        
         session(['testID' => $testID]);
-        session(['vocabIndex' => 0]); 
-        session(['score' => 0]);      
+        session(['vocabIndex' => 0]);
+        session(['score' => 0]);
 
-        // 3. Chuyển hướng thẳng đến trang làm bài
         return redirect()->route('doTest');
     }
 
     public function joinTest($id)
     {
-        // 1. Tìm bài test trong DB
         $test = DB::table('test')->where('testID', $id)->first();
 
-        // Kiểm tra nếu bài test không tồn tại
         if (!$test) {
             return redirect()->route('home')->with('error', 'Bài thi không tồn tại!');
         }
 
-        
-        session(['testID' => $id]);     
-        session(['vocabIndex' => 0]);   
-        session(['score' => 0]);        
+        session(['testID' => $id]);
+        session(['vocabIndex' => 0]);
+        session(['score' => 0]);
 
         session()->forget(['filePath', 'vocab']);
+
         return view('test.confirmCreate', compact('test'));
     }
 
@@ -249,18 +238,15 @@ class TestController extends Controller
     {
         $userID = Auth::id();
 
-        // Kiểm tra xem đã like chưa
         $existing = DB::table('favourites')
             ->where('userID', $userID)
             ->where('testID', $id)
             ->first();
 
         if ($existing) {
-            // Nếu có rồi -> XÓA (Un-like)
             DB::table('favourites')->where('id', $existing->id)->delete();
             $message = 'Đã xóa khỏi mục yêu thích!';
         } else {
-            // Nếu chưa có -> THÊM (Like)
             DB::table('favourites')->insert([
                 'userID' => $userID,
                 'testID' => $id,

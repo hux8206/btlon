@@ -70,7 +70,7 @@
         <div class="flex items-center space-x-4">
           <div class="text-right">
             <p class="text-sm opacity-80">Điểm:</p>
-            <p id="current-score" class="text-xl font-bold">0</p>
+            <p id="current-score" class="text-xl font-bold">{{ session('score',0) }}</p>
           </div>
           <div class="text-right">
             <p class="text-sm opacity-80">Thời gian:</p>
