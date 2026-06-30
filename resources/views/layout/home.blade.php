@@ -142,7 +142,7 @@
         @empty
         <div class="col-span-3 text-center py-10">
             <p class="text-gray-500 text-lg">Chưa có bài học nào được tạo.</p>
-            <a href="{{ route('joinTest') }}" class="text-custom-main font-bold hover:underline">Tạo bài đầu tiên ngay!</a>
+            <a href="{{ route('create') }}" class="text-custom-main font-bold hover:underline">Tạo bài đầu tiên ngay!</a>
         </div>
         @endforelse
 
