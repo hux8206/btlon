@@ -2,7 +2,7 @@ FROM php:8.2-fpm-alpine
 
 # Cài đặt các extension PHP cần thiết cho Laravel
 RUN apk add --no-cache nginx supervisor curl libpng-dev libxml2-dev zip unzip git
-RUN docker-php-ext-install pdo_mysql bcmath gd SimpleXML
+RUN docker-php-ext-install pdo_mysql bcmath gd simpleXML
 
 # Cài đặt Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
