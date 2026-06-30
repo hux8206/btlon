@@ -77,7 +77,7 @@ class MainController extends Controller
                 'users.fullName as author_name',
                 DB::raw('COUNT(history.historyID) as play_count')
             )
-            ->where('test.mode', 0)
+
             ->groupBy(
                 'test.testID',
                 'test.title',

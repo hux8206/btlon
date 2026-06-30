@@ -33,7 +33,7 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string',
+            'title' => 'required|string|min:5',
             'timeEachQuestion' => 'required|integer|min:5',
             'quantity' => 'exclude_if:all,1|required|integer|min:1|max:' . $this->maxword,
             'all' =>'boolean',
